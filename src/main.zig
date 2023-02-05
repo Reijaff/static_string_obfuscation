@@ -7,29 +7,6 @@ fn comptime_rnd_init() *std.rand.Xoodoo{
 	return &rnd;
 }
 
-const hh = struct{
-
-	fn _x(comptime string: []const u8) [string.len]u8 {
-
-		@setEvalBranchQuota(100000);
-
-    	var encrypted_string: [string.len]u8 = undefined;
-    	var decrypted_string: [string.len]u8 = undefined;
-
-    	inline for (string) |chr, idx| {
-			var ki = comptime comptime_rnd_init().random().int(u8);
-        	encrypted_string[idx] = chr ^ ki;
-    	}
-
-    	for (encrypted_string) |chr, idx| {
-        	decrypted_string[idx] = chr ^ runtime_rnd_init.random().int(u8);
-    	}
-
-    	return decrypted_string;
-	}
-
-};
-
 fn encrypt(comptime string: []const u8) []const u8{
     var new_string: [string.len]u8 = undefined;
 	@setEvalBranchQuota(100000);
